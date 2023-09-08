@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:quize1/answer.dart';
-import 'package:quize1/question.dart';
+import 'package:flutter/material.dart';  
+import 'package:quize1/quize.dart';
+import 'package:quize1/result.dart';
 
 
 void main(){
@@ -14,10 +14,15 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
 
 int _questionsIdix=0;
+void recievQUT()
+{
+  setState(() {
+    _questionsIdix=0;
+  });
+}
 void answerQuestion()
 {
-  if(_questionsIdix==1)
-  _questionsIdix=-1;
+ 
   setState(() {
     _questionsIdix++;
   });
@@ -45,19 +50,9 @@ final List<Map<String, Object>> _questions = [
           title:  Text("Quiz APP"),
         ),
         body: Container(
-          child: Column(
-            children: [
-             Questions(_questions[_questionsIdix]['questionText'] as String),
-              ...(_questions[_questionsIdix]['answers'] as List<String> ).map((answer)
-              {
-                return  Asnwer(answerQuestion,answer);
-
-              }).toList(),
-            
-             Asnwer(answerQuestion,"answer2"),
-             Asnwer(answerQuestion,"answer3"),
-            ],
-          ),
+          child:_questionsIdix<_questions.length? 
+            Quize(_questions, _questionsIdix, answerQuestion)
+            :Reslt(recievQUT)  ,
          // child:Questions(_questions[1])
 
         ),
